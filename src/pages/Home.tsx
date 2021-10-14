@@ -1,20 +1,17 @@
-import { useContext } from 'react';
-import { AuthContext } from '../App';
-
 import { useHistory } from 'react-router-dom';
-
-
 import illustrationImg from '../assets/images/illustration.svg';
 import logo from '../assets/images/logo.svg';
 import googleIconImg from '../assets/images/google-icon.svg';
 
 import '../styles/auth.scss';
 import { Button } from '../components/Button';
+import { useAuth } from '../hooks/useAuth';
+import { FormEvent } from 'react';
 
 export function Home() {
   const history = useHistory();
 
-  const { user, signInWithGoogle } = useContext(AuthContext);
+  const { user, signInWithGoogle } = useAuth()
 
   async function handleCreateRoom(){
 
@@ -23,6 +20,11 @@ export function Home() {
     }
 
     history.push('/rooms/new');
+  }
+
+  async function handleJoinRoom(event: FormEvent){
+    event.preventDefault()
+      
   }
 
   return(
@@ -40,7 +42,7 @@ export function Home() {
             Crie sua sala com o Google
           </button>
           <div className="separator">ou entre em uma sala</div>
-          <form action="">
+          <form onSubmit={handleJoinRoom}>
             <input 
               type="text" 
               placeholder="Digite o código da sala"
